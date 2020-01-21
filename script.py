@@ -45,16 +45,21 @@ else:
 # Creating result log folder
 dirname = os.path.dirname(csvfile)
 
-print(bcolors.OKBLUE + "Reading csv..." + bcolors.ENDC)
+print("Reading csv...")
 
 # Opens CSV and stores data into a table
-csvtable = CSVHelper.readFile(csvfile)
+csvtable = CSVHelper.readFile(csvfile, delimiter='\t')
 
-print(bcolors.OKBLUE + "Generating plots for" + csvfile + "..." + bcolors.ENDC)
+if len(csvtable) == 0:
+    print("An error occurred when loading data")
+    sys.exit(1)
+
+
+print("Generating plots for" + csvfile + "...")
 
 # Plot using PlotHelper
 # plotcsvmetric(csvtable, xaxis, parameter, figuretitle, unitofmeasure)
 PlotHelper.plotcsvmetric(csvtable, xaxis, yaxis, figuretitle, unitofmeasure)
 
 # Plot RSRP
-print(bcolors.OKGREEN + "\nPNG Graph saved in " + dirname + bcolors.ENDC)
+print("\nPNG Graph saved in " + dirname)
