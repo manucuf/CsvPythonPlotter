@@ -21,22 +21,25 @@ class bcolors:
 
 xaxis = None
 yaxis = None
-figuretitle = "test"
-unitofmeasure = "t"
+figuretitle = None
+unitofmeasure = None
 delimiter = None
 
 # Check if first argument passed as csv file
-if sys.argv[1:] and sys.argv[1].endswith(".csv") and sys.argv[2:] and sys.argv[3:]:
+if sys.argv[1:] and sys.argv[1].endswith(".csv") and sys.argv[2:] and sys.argv[3:] and sys.argv[4:] and sys.argv[5:] and sys.argv[6:]:
     csvfile = sys.argv[1]  # Storing reference to CSV file
     xaxis = sys.argv[2]
     yaxis = sys.argv[3]
+    figuretitle = sys.argv[4]
+    unitofmeasure = sys.argv[5]
+    delimiter = sys.argv[6]
     print("Csv detected")
 else:
     # Usage description
     print(bcolors.HEADER +\
         "\nPlease specify csv file path"\
         + bcolors.OKBLUE +\
-        "\n\nUSAGE:\npython script.py [PATH OF .csv FILE] [x Axis] [y Axis]"\
+        "\n\nUSAGE:\npython script.py [PATH OF .csv FILE] [x Axis] [y Axis] [title] [unit] [delimiter]"\
         + bcolors.ENDC)
     sys.exit(1)
 
@@ -48,7 +51,7 @@ dirname = os.path.dirname(csvfile)
 print("Reading csv...")
 
 # Opens CSV and stores data into a table
-csvtable = CSVHelper.readFile(csvfile, delimiter='\t')
+csvtable = CSVHelper.readFile(csvfile, delimiter=delimiter)
 
 if len(csvtable) == 0:
     print("An error occurred when loading data")
@@ -59,7 +62,7 @@ print("Generating plots for" + csvfile + "...")
 
 # Plot using PlotHelper
 # plotcsvmetric(csvtable, xaxis, parameter, figuretitle, unitofmeasure)
-PlotHelper.plotcsvmetric(csvtable, xaxis, yaxis, figuretitle, unitofmeasure)
+PlotHelper.plotcsvmetric(csvtable, xaxis, yaxis, figuretitle, unitofmeasure, False)
 
 # Plot RSRP
 print("\nPNG Graph saved in " + dirname)

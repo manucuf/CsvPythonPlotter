@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def plotcsvmetric(csvtable, xaxis, parameter, figuretitle, unitofmeasure):
+def plotcsvmetric(csvtable, xaxis, parameter, figuretitle, unitofmeasure, displayaverage):
     # Plots the paramter variation in domain specified by timeaxis
     # Calculates average
     # Saves plot as .png file
@@ -19,7 +19,7 @@ def plotcsvmetric(csvtable, xaxis, parameter, figuretitle, unitofmeasure):
     x = np.arange(starttime, endtime + 1, step)
 
     # Define figure
-    fig, ax = plt.subplots(figsize=(7, 3))
+    fig, ax = plt.subplots(figsize=(7, 7))
 
     # Build data array for selected parameter
     dataarray = []
@@ -33,13 +33,17 @@ def plotcsvmetric(csvtable, xaxis, parameter, figuretitle, unitofmeasure):
         elemtoremove = len(dataarray) - int(endtime + 1)
         dataarray = dataarray[:(len(dataarray)-elemtoremove)]
 
+    npdataarray = np.array(dataarray)
+    npx = np.linspace(0, x[-1], len(dataarray))
     # Calculating average
-    average = np.average(dataarray)
+    average = np.average(npdataarray)
 
     # Plot, labeling and options
-    ax.plot(x, dataarray)
-    ax.set(xlabel=xaxis, ylabel=unitofmeasure, title = figuretitle + '\n\nAverage = ' + str(average))
-    # ax.set_ylim([0, 2]) # uncomment to set y visualization range
+    ax.plot(npx, npdataarray)
+    if (displayaverage == True):
+        ax.set(xlabel=xaxis, ylabel=unitofmeasure, title = figuretitle + '\n\nAverage = ' + str(average))
+    else:
+        ax.set(xlabel=xaxis, ylabel=unitofmeasure, title = figuretitle)
     ax.grid()
 
     # Saving PNG
